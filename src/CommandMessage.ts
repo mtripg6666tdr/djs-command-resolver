@@ -233,6 +233,13 @@ export class CommandMessage {
     return this._rawOptions;
   }
 
+  protected static parseCommand(cmd:string, prefixLength:number, textNormalizer:((text:string)=>string)) {
+    const commandString = textNormalizer(cmd).substring(prefixLength);
+    let [command, ...options] = commandString.split(" ").filter(content => content.length > 0);
+    let rawOptions = options.join(" ");
+    return {command, options, rawOptions};
+  }
+
   /**
    * Reslolve command and arguments from message content
    * @param content message content
@@ -240,13 +247,7 @@ export class CommandMessage {
    * @returns object contains resolved command, parsed arguments and raw argument.
    */
   static resolveCommandMessage(content:string, prefixLength:number = 1, textNormalizer:((text:string)=>string) = v => v){
-    const parseCommand = (cmd:string) => {
-      const commandString = textNormalizer(cmd).substring(prefixLength);
-      let [command, ...options] = commandString.split(" ").filter(content => content.length > 0);
-      let rawOptions = options.join(" ");
-      return {command, options, rawOptions};
-    };
-    let { command, options, rawOptions } = parseCommand(content);
+    let { command, options, rawOptions } = CommandMessage.parseCommand(content, prefixLength, textNormalizer);
     command = command.toLowerCase();
     return {
       command: command, 
