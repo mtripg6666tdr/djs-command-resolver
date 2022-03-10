@@ -1,6 +1,6 @@
 {
   "name": "djs-command-resolver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This allows you to support Message-based-command and Interaction-based-command easily.",
   "main": "dist/index.js",
   "types": "typings/index.d.ts",
