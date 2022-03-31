@@ -1,4 +1,4 @@
-import type { APIMessage } from "discord-api-types";
+import type { APIMessage } from "discord-api-types/v9";
 import { CommandInteraction, EmojiIdentifierResolvable, Message, MessageEditOptions, SelectMenuInteraction } from "discord.js";
 import { CommandMessage } from "./CommandMessage";
 
