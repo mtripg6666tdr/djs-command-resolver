@@ -1,4 +1,4 @@
-import { CommandInteraction, Message, MessageOptions, Client, Collection, MessageAttachment, ReplyMessageOptions } from "discord.js";
+import { CommandInteraction, Message, MessageOptions, Client, Collection, ReplyMessageOptions, Attachment } from "discord.js";
 import { ResponseMessage } from "./ResponseMessage";
 
 /**
@@ -6,14 +6,14 @@ import { ResponseMessage } from "./ResponseMessage";
  */
 export class CommandMessage {
   protected isMessage = false;
-  protected _message = null as Message;
-  protected _interaction = null as CommandInteraction;
+  protected _message = null as unknown as Message;
+  protected _interaction = null as unknown as CommandInteraction;
   protected _interactionReplied = false;
-  protected _client = null as Client;
-  protected _command = null as string;
-  protected _options = null as string[];
-  protected _rawOptions = null as string;
-  protected _responseMessage = null as ResponseMessage;
+  protected _client = null as unknown as Client;
+  protected _command = null as unknown as string;
+  protected _options = null as unknown as string[];
+  protected _rawOptions = null as unknown as string;
+  protected _responseMessage = null as unknown as ResponseMessage;
   protected constructor(){}
 
   /**
@@ -54,7 +54,7 @@ export class CommandMessage {
     if(!interaction.deferred) interaction.deferReply();
     me._client = interaction.client;
     me._command = interaction.commandName;
-    me._options = interaction.options.data.map(arg => arg.value.toString());
+    me._options = interaction.options.data.map(arg => arg.value?.toString() || "undefined");
     me._rawOptions = me._options.join(" ");
     return me;
   }
@@ -70,7 +70,7 @@ export class CommandMessage {
       if(this._responseMessage){
         throw new Error("Target message was already replied");
       }
-      let _opt = null as ReplyMessageOptions;
+      let _opt = null as unknown as ReplyMessageOptions;
       if(typeof options === "string"){
         _opt = {
           content: options
@@ -88,7 +88,7 @@ export class CommandMessage {
       if(this._interactionReplied){
         throw new Error("Target message was already replied");
       }
-      let _opt = null as (MessageOptions & { fetchReply: true});
+      let _opt = null as unknown as (MessageOptions & { fetchReply: true});
       if(typeof options === "string"){
         _opt = {content: options, fetchReply:true}
       }else{
@@ -143,7 +143,7 @@ export class CommandMessage {
    * the memeber of this command message
    */
   get member(){
-    return this.isMessage ? this._message.member : this._interaction.guild.members.resolve(this._interaction.user.id);
+    return this.isMessage ? this._message.member : this._interaction.guild?.members.resolve(this._interaction.user.id);
   }
 
   /**
@@ -201,7 +201,7 @@ export class CommandMessage {
    * the channel id of this command message
    */
   get channelId(){
-    return this.isMessage ? this._message.channel.id : this._interaction.channel.id;
+    return this.isMessage ? this._message.channel.id : this._interaction.channel?.id;
   }
 
   /**
@@ -209,7 +209,7 @@ export class CommandMessage {
    * If this was created from CommandInteraction, this will always return empty collection.
    */
   get attachments(){
-    return this.isMessage ? this._message.attachments : new Collection<string, MessageAttachment>();
+    return this.isMessage ? this._message.attachments : new Collection<string, Attachment>();
   }
   
   /**

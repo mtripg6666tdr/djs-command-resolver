@@ -11,7 +11,8 @@
     "noImplicitThis": true,
     "declaration": true,
     "declarationDir": "./typings",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "strictNullChecks": true,
   },
   "include": [
     "./src/**/*.ts"
