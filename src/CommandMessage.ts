@@ -21,11 +21,11 @@ export class CommandMessage {
    * @param message Message an user sent that contains command
    * @returns new CommandMessage instance
    */
-  static createFromMessage(message:Message){
+  static createFromMessage(message:Message, prefixLength:number = 1){
     const me = new CommandMessage();
     me.isMessage = true;
     me._message = message;
-    const { command, options, rawOptions } = this.resolveCommandMessage(message.content);
+    const { command, options, rawOptions } = this.resolveCommandMessage(message.content, prefixLength);
     me._command = command;
     me._options = options;
     me._rawOptions = rawOptions;
@@ -246,8 +246,8 @@ export class CommandMessage {
    * @param prefixLength prefix length
    * @returns object contains resolved command, parsed arguments and raw argument.
    */
-  static resolveCommandMessage(content:string, prefixLength:number = 1, textNormalizer:((text:string)=>string) = v => v){
-    let { command, options, rawOptions } = CommandMessage.parseCommand(content, prefixLength, textNormalizer);
+  static resolveCommandMessage(content:string, prefixLength:number, textNormalizer:((text:string)=>string) = v => v){
+    let { command, options, rawOptions } = this.parseCommand(content, prefixLength, textNormalizer);
     command = command.toLowerCase();
     return {
       command: command, 
