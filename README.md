@@ -1,3 +1,7 @@
+# :warning: This package is DEPRECATED!
+This repository will be no longer maintained. for more info see [#1](https://github.com/mtripg6666tdr/djs-command-resolver/issues/1)
+
+---
 > Note: this package is mainly for my own use, but it might be useful if you use as needed  
 # djs-command-resolver
 By using this package, both `ComamndInteraction` and `Message` will be resolved as unified `CommandMessage` and you can code with `CommandMessage` with no considering the way the command passed.  
